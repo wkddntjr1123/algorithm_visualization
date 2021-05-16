@@ -1,3 +1,5 @@
-const InsertionSort = () => <div>InsertionSort</div>;
+const InsertionSort = () => {
+    return <div></div>;
+};
 
 export default InsertionSort;
