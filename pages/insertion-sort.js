@@ -46,7 +46,7 @@ const InsertionSort = () => {
   const [idxI, setIdxI] = useState(-1); //bar밑에 i인덱스
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
-  const [speed, setSpeed] = useState(10); //정렬 시각화 속도
+  const [speed, setSpeed] = useState(5); //정렬 시각화 속도
 
   //배열 shuffle
   const handleShuffle = () => {

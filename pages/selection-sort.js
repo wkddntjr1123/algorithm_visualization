@@ -17,6 +17,33 @@ const init_arr = Array(h * w)
   });
 
 //선택정렬 함수 : async/await를 사용해서 setArr을 통한 state업데이트 렌더링
+const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
+  const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
+  const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    let minIndex = i;
+    setIdxI(i);
+    beepA(1);
+    for (let j = i + 1; j < arr.length; j++) {
+      setIdxJ(j);
+      await new Promise((resolve, reject) => {
+        beepB(1);
+        setArr([...arr]);
+        //0.01초 후 resolve함수가 실행되므로 0.01초의 딜레이를 갖게됌
+        setTimeout(resolve, speed);
+      });
+      if (arr[minIndex] > arr[j]) {
+        minIndex = j;
+      }
+    }
+
+    if (minIndex !== i) {
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+    }
+  }
+};
+
 /*const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
   const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
   const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
@@ -44,7 +71,7 @@ const SelectionSort = () => {
   const [idxI, setIdxI] = useState(-1); //bar밑에 i인덱스
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
-  const [speed, setSpeed] = useState(10); //정렬 시각화 속도
+  const [speed, setSpeed] = useState(5); //정렬 시각화 속도
 
   //배열 shuffle
   const handleShuffle = () => {
