@@ -72,6 +72,7 @@ const QuickSort = () => {
       <div className="index" style={{ left: `${idxJ}%` }}>
         j
       </div>
+
       <div className="buttonBox">
         {!isRunning && (
           <select className="speedBox" onChange={(e) => setSpeed(e.target.value)}>
