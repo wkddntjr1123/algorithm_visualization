@@ -35,6 +35,14 @@ export default function Home() {
           <strong>속도</strong> : 속도를 설정하고 Sort를 누르면 해당 속도로 시각화를 보여줌
         </p>
       </div>
+      <br />
+      <br />
+      <div className="footer">
+        GitHub :{" "}
+        <a href="https://github.com/wkddntjr1123/nextjs_algorithm_visualization" target="_blank">
+          https://github.com/wkddntjr1123/nextjs_algorithm_visualization
+        </a>
+      </div>
       <style jsx>
         {`
           .container {
@@ -42,7 +50,7 @@ export default function Home() {
           }
 
           h1 {
-            margin-top: 10%;
+            margin-top: 5%;
             text-align: center;
           }
           .board {
@@ -60,6 +68,15 @@ export default function Home() {
           }
           button {
             font-size: 20px;
+          }
+          .footer {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+          }
+          .footer a {
+            font-weight: 400;
+            color: #7d7dff;
           }
         `}
       </style>
