@@ -40,7 +40,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
     }
 
     if (minIndex !== i) {
-      await blinkColor(i, minIndex, speed);
+      await blinkColor(i, minIndex, 200);
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
       setArr([...arr]);
     }
@@ -102,7 +102,8 @@ const SelectionSort = () => {
       <h1>Selection Sort</h1>
       <div className="board">
         {arr.map((value, i) => (
-          <Bar key={`${uniqueId("set")}${i}`} value={value} index={i} /> //lodash uniqueId로 고유키값 설정
+          //lodash uniqueId로 고유키값 설정
+          <Bar key={`${uniqueId("set")}${i}`} value={value} index={i} />
         ))}
       </div>
       <div className="index" style={{ left: `${idxI}%` }}>

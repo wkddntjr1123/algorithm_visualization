@@ -1,10 +1,11 @@
 import { uniqueId } from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BrowserBeep from "browser-beep";
 import Navbar from "../components/Navbar";
 import shuffle from "../lib/shuffle";
 import Bar from "../components/bar";
 import blinkColor from "../lib/blickColor";
+import mergeSort from "../lib/mergeSort";
 
 //배열값. 나중에 fs를 통해 1~100까지의 수가 있는 파일을 받을 예정
 const h = 10;
@@ -17,36 +18,13 @@ const init_arr = Array(h * w)
     return i + 1;
   });
 
-//버블정렬 함수 : async/await를 사용해서 setArr을 통한 state업데이트 렌더링
-const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
-  const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
-  const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
-
-  for (let i = 0; i < arr.length; i++) {
-    setIdxI(i);
-    for (let j = 0; j < arr.length - i; j++) {
-      if (j + 1 < arr.length && arr[j] > arr[j + 1]) {
-        setIdxJ(j);
-        await blinkColor(j, j + 1, speed);
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        await new Promise((resolve, reject) => {
-          beepB(1);
-          setArr([...arr]);
-          //0.01초 후 resolve함수가 실행되므로 0.01초의 딜레이를 갖게됌
-          setTimeout(resolve, speed);
-        });
-      }
-    }
-    beepA(1);
-  }
-};
-
-const BubbleSort = () => {
+const MergeSort = () => {
   const [arr, setArr] = useState(init_arr); //배열이 섞이면 화면이 렌더링되게 하기 위해서 state 사용
   const [idxI, setIdxI] = useState(-1); //bar밑에 i인덱스
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
   const [speed, setSpeed] = useState(5); //정렬 시각화 속도
+
   //배열 shuffle
   const handleShuffle = () => {
     setArr(shuffle(arr));
@@ -89,10 +67,49 @@ const BubbleSort = () => {
       };
     };
   };
+
+  //병합정렬 함수 : async/await를 사용해서 setArr을 통한 state업데이트 렌더링
+  const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
+    if (arr.length === 1) return arr;
+
+    const middle = parseInt(arr.length / 2);
+    const left = arr.slice(0, middle);
+    const right = arr.slice(middle);
+    return await merge(await sort(left, setArr, setIdxI, setIdxJ, speed), await sort(right, setArr, setIdxI, setIdxJ, speed));
+  };
+
+  //병합정렬에서 사용되는 병합 함수
+  const merge = async (left, right) => {
+    let result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < left.length && rightIndex < right.length) {
+      if (left[leftIndex] <= right[rightIndex]) result.push(left[leftIndex++]);
+      else result.push(right[rightIndex++]);
+    }
+    await new Promise((resolve, reject) => {
+      //left쪽 시각화
+      const subArr = [...result, ...left.slice(leftIndex), ...right.slice(rightIndex)];
+      const newArr = [];
+      for (let i = 0; i < arr.length; i++) {
+        if (subArr[i]) {
+          newArr.push(subArr[i]);
+        } else newArr.push(arr[i]);
+      }
+      console.log(result.length);
+      setArr(newArr);
+      //right쪽 시각화
+      setTimeout(resolve, 100);
+    });
+
+    return [...result, ...left.slice(leftIndex), ...right.slice(rightIndex)];
+  };
+
   return (
     <div>
       <Navbar />
-      <h1>Bubble Sort</h1>
+      <h1>Merge Sort</h1>
       <div className="board">
         {arr.map((value, i) => (
           <Bar key={`${uniqueId("set")}${i}`} value={value} index={i} /> //lodash uniqueId로 고유키값 설정
@@ -113,7 +130,7 @@ const BubbleSort = () => {
         )}
         {!isRunning && <button onClick={() => fileInput(setArr)}>File</button>}
         {!isRunning && <button onClick={handleShuffle}>Shuffle</button>}
-        {!isRunning && <button onClick={() => handdleSort(arr, speed)}>Sort</button>}
+        {!isRunning && <button onClick={() => mergeSort(arr, setArr, setIdxI, setIdxJ, speed)}>Sort</button>}
         {isRunning && <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "20px", marginRight: "20px" }}>Running!</div>}
       </div>
 
@@ -162,4 +179,4 @@ const BubbleSort = () => {
   );
 };
 
-export default BubbleSort;
+export default MergeSort;

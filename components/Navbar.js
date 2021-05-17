@@ -41,7 +41,7 @@ const Navbar = () => {
           }
 
           .nav_item {
-            padding: 30px;
+            padding: 0;
             cursor: pointer;
           }
           .nav_item:hover {
@@ -50,6 +50,10 @@ const Navbar = () => {
           }
 
           .nav_item a {
+            padding: 30px;
+            display: block;
+            width: 100%;
+            height: 100%;
             text-align: center;
             text-decoration: none;
             color: white;

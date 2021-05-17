@@ -20,14 +20,19 @@ export default function Home() {
         </p>
         <br />
         <br />
+
         <p>
           <strong>File</strong> : txt파일에 있는 수를 읽어서 배열화 (각 숫자는 <strong>,</strong> 로 구분)
         </p>
         <p>
           <strong>Shuffle</strong> : 현재 배열을 무작위로 섞음
         </p>
+
         <p>
           <strong>Sort</strong> : 정렬 시작
+        </p>
+        <p>
+          <strong>속도</strong> : 속도를 설정하고 Sort를 누르면 해당 속도로 시각화를 보여줌
         </p>
       </div>
       <style jsx>
