@@ -4,6 +4,7 @@ import BrowserBeep from "browser-beep";
 import Navbar from "../components/Navbar";
 import shuffle from "../lib/shuffle";
 import Bar from "../components/bar";
+import blinkColor from "../lib/blickColor";
 
 //배열값. 나중에 fs를 통해 1~100까지의 수가 있는 파일을 받을 예정
 const h = 10;
@@ -60,6 +61,7 @@ const InsertionSort = () => {
     setIsRunning(false);
     setIdxI(-1);
     setIdxJ(-1);
+    setSpeed(5);
   };
   //txt파일 숫자들 읽어서 배열화 --> arr state값 변경
   const fileInput = (setArr) => {
@@ -137,7 +139,7 @@ const InsertionSort = () => {
           }
           button {
             font-size: 35px;
-            height: 150%;
+            height: 65px;
             margin: 20px 20px 0px 0px;
             border-radius: 10px;
           }
@@ -151,7 +153,7 @@ const InsertionSort = () => {
           }
           .speedBox {
             width: 200px;
-            height: 150%;
+            height: 65px;
             border: 2px solid black;
             font-size: 30px;
             margin-right: 30px;

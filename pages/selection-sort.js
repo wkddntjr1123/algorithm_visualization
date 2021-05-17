@@ -4,6 +4,7 @@ import BrowserBeep from "browser-beep";
 import Navbar from "../components/Navbar";
 import shuffle from "../lib/shuffle";
 import Bar from "../components/bar";
+import blinkColor from "../lib/blickColor";
 
 //배열값. 나중에 fs를 통해 1~100까지의 수가 있는 파일을 받을 예정
 const h = 10;
@@ -39,32 +40,12 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
     }
 
     if (minIndex !== i) {
+      await blinkColor(i, minIndex, 150);
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+      setArr([...arr]);
     }
   }
 };
-
-/*const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
-  const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
-  const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
-
-  for (let i = 0; i < arr.length; i++) {
-    setIdxI(i);
-    for (let j = 0; j < arr.length - i; j++) {
-      if (j + 1 < arr.length && arr[j] > arr[j + 1]) {
-        setIdxJ(j);
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        await new Promise((resolve, reject) => {
-          beepB(1);
-          setArr([...arr]);
-          //0.01초 후 resolve함수가 실행되므로 0.01초의 딜레이를 갖게됌
-          setTimeout(resolve, speed);
-        });
-      }
-    }
-    beepA(1);
-  }
-};*/
 
 const SelectionSort = () => {
   const [arr, setArr] = useState(init_arr); //배열이 섞이면 화면이 렌더링되게 하기 위해서 state 사용
@@ -85,6 +66,7 @@ const SelectionSort = () => {
     setIsRunning(false);
     setIdxI(-1);
     setIdxJ(-1);
+    setSpeed(5);
   };
   //txt파일 숫자들 읽어서 배열화 --> arr state값 변경
   const fileInput = (setArr) => {
@@ -162,7 +144,7 @@ const SelectionSort = () => {
           }
           button {
             font-size: 35px;
-            height: 150%;
+            height: 65px;
             margin: 20px 20px 0px 0px;
             border-radius: 10px;
           }
@@ -176,7 +158,7 @@ const SelectionSort = () => {
           }
           .speedBox {
             width: 200px;
-            height: 150%;
+            height: 65px;
             border: 2px solid black;
             font-size: 30px;
             margin-right: 30px;
