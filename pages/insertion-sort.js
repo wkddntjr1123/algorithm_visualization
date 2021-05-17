@@ -17,7 +17,7 @@ const init_arr = Array(h * w)
   });
 
 //삽입정렬 함수 : async/await를 사용해서 setArr을 통한 state업데이트 렌더링
-const sort = async (arr, setArr, setIdxI, setIdxJ) => {
+const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
   const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
   const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
 
@@ -30,7 +30,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ) => {
         beepB(1);
         //0.01초 후 resolve함수가 실행되므로 0.01초의 딜레이를 갖게됌
         setArr([...arr]);
-        setTimeout(resolve, 10);
+        setTimeout(resolve, speed);
       });
       j = j - 1;
       setIdxJ(j);
@@ -46,6 +46,7 @@ const InsertionSort = () => {
   const [idxI, setIdxI] = useState(-1); //bar밑에 i인덱스
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
+  const [speed, setSpeed] = useState(10); //정렬 시각화 속도
 
   //배열 shuffle
   const handleShuffle = () => {
@@ -53,9 +54,9 @@ const InsertionSort = () => {
   };
 
   //시작시 isRunning을 true로 해서 running알림. sort끝나면 다시 isRunning false로 해서 버튼 표시
-  const handdleSort = async (arr) => {
+  const handdleSort = async (arr, speed) => {
     setIsRunning(true);
-    await sort(arr, setArr, setIdxI, setIdxJ);
+    await sort(arr, setArr, setIdxI, setIdxJ, speed);
     setIsRunning(false);
     setIdxI(-1);
     setIdxJ(-1);
@@ -104,9 +105,15 @@ const InsertionSort = () => {
         j
       </div>
       <div className="buttonBox">
+        {!isRunning && (
+          <select className="speedBox" onChange={(e) => setSpeed(e.target.value)}>
+            <option value={5}>속도 : 빠르게</option>
+            <option value={50}>속도 : 느리게</option>
+          </select>
+        )}
         {!isRunning && <button onClick={() => fileInput(setArr)}>File</button>}
         {!isRunning && <button onClick={handleShuffle}>Shuffle</button>}
-        {!isRunning && <button onClick={() => handdleSort(arr)}>Sort</button>}
+        {!isRunning && <button onClick={() => handdleSort(arr, speed)}>Sort</button>}
         {isRunning && <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "20px", marginRight: "20px" }}>Running!</div>}
       </div>
 
@@ -141,6 +148,13 @@ const InsertionSort = () => {
             font-size: 20px;
             font-weight: bold;
             text-align: center;
+          }
+          .speedBox {
+            width: 200px;
+            height: 150%;
+            border: 2px solid black;
+            font-size: 30px;
+            margin-right: 30px;
           }
         `}
       </style>
