@@ -4,36 +4,29 @@ const Navbar = () => {
   return (
     <nav>
       <ul className="nav_container">
-        <Link href="/">
-          <li className="nav_item">
-            <a>Home</a>
-          </li>
-        </Link>
-        <Link href="/selection-sort">
-          <li className="nav_item">
-            <a>선택정렬</a>
-          </li>
-        </Link>
-        <Link href="/bubble-sort">
-          <li className="nav_item">
-            <a>버블정렬</a>
-          </li>
-        </Link>
-        <Link href="/insertion-sort">
-          <li className="nav_item">
-            <a>삽입정렬</a>
-          </li>
-        </Link>
-        <Link href="#">
-          <li className="nav_item">
-            <a>병합정렬</a>
-          </li>
-        </Link>
-        <Link href="#">
-          <li className="nav_item">
-            <a>퀵정렬</a>
-          </li>
-        </Link>
+        <li className="nav_item">
+          <a href="/">Home</a>
+        </li>
+
+        <li className="nav_item">
+          <a href="/selection-sort">선택정렬</a>
+        </li>
+
+        <li className="nav_item">
+          <a href="/bubble-sort">버블정렬</a>
+        </li>
+
+        <li className="nav_item">
+          <a href="/insertion-sort">삽입정렬</a>
+        </li>
+
+        <li className="nav_item">
+          <a href="/merge-sort">병합정렬</a>
+        </li>
+
+        <li className="nav_item">
+          <a href="/quick-sort">퀵정렬</a>
+        </li>
       </ul>
       <style jsx>
         {`

@@ -27,7 +27,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
     for (let j = 0; j < arr.length - i; j++) {
       if (j + 1 < arr.length && arr[j] > arr[j + 1]) {
         setIdxJ(j);
-        await blinkColor(j, j + 1, 5);
+        await blinkColor(j, j + 1, speed);
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
         await new Promise((resolve, reject) => {
           beepB(1);

@@ -27,6 +27,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
     let j = i;
     while (j > 0 && arr[j - 1] > arr[j]) {
       [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
+      await await blinkColor(j, j - 1, speed);
       await new Promise((resolve, reject) => {
         beepB(1);
         //0.01초 후 resolve함수가 실행되므로 0.01초의 딜레이를 갖게됌

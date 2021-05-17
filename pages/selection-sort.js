@@ -40,7 +40,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
     }
 
     if (minIndex !== i) {
-      await blinkColor(i, minIndex, 150);
+      await blinkColor(i, minIndex, speed);
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
       setArr([...arr]);
     }
