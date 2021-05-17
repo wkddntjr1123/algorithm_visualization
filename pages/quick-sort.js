@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import shuffle from "../lib/shuffle";
 import Bar from "../components/bar";
-import mergeSort from "../lib/mergeSort";
+import quickSort from "../lib/quickSort";
 
 //배열값. 나중에 fs를 통해 1~100까지의 수가 있는 파일을 받을 예정
 const h = 10;
@@ -16,7 +16,7 @@ const init_arr = Array(h * w)
     return i + 1;
   });
 
-const MergeSort = () => {
+const QuickSort = () => {
   const [arr, setArr] = useState(init_arr); //배열이 섞이면 화면이 렌더링되게 하기 위해서 state 사용
   const [idxI, setIdxI] = useState(-1); //bar밑에 i인덱스
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
@@ -60,7 +60,7 @@ const MergeSort = () => {
   return (
     <div>
       <Navbar />
-      <h1>Merge Sort</h1>
+      <h1>Quick Sort</h1>
       <div className="board">
         {arr.map((value, i) => (
           <Bar key={`${uniqueId("set")}${i}`} value={value} index={i} /> //lodash uniqueId로 고유키값 설정
@@ -81,7 +81,7 @@ const MergeSort = () => {
         )}
         {!isRunning && <button onClick={() => fileInput(setArr)}>File</button>}
         {!isRunning && <button onClick={handleShuffle}>Shuffle</button>}
-        {!isRunning && <button onClick={() => mergeSort(arr, setArr, setIdxI, setIdxJ, speed)}>Sort</button>}
+        {!isRunning && <button onClick={() => quickSort(arr, setArr, setIdxI, setIdxJ, speed)}>Sort</button>}
         {isRunning && <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "20px", marginRight: "20px" }}>Running!</div>}
       </div>
 
@@ -130,4 +130,4 @@ const MergeSort = () => {
   );
 };
 
-export default MergeSort;
+export default QuickSort;
