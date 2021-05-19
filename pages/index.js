@@ -22,7 +22,10 @@ export default function Home() {
         <br />
 
         <p>
-          <strong>File</strong> : txt파일에 있는 수를 읽어서 배열화 (각 숫자는 <strong>,</strong> 로 구분)
+          <strong>Input txt File</strong> : txt파일에 있는 수를 읽어서 배열화 (각 숫자는 <strong>,</strong> 로 구분)
+        </p>
+        <p>
+          <strong>Download Output txt File</strong> 정렬 결과를 txt파일로 다운로드 (각 숫자는 <strong>,</strong> 로 구분)
         </p>
         <p>
           <strong>Shuffle</strong> : 현재 배열을 무작위로 섞음

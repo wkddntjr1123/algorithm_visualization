@@ -47,6 +47,7 @@ const BubbleSort = () => {
   const [idxJ, setIdxJ] = useState(-1); //bar밑에 j인덱스
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
   const [speed, setSpeed] = useState(5); //정렬 시각화 속도
+  const [isSorted, setIsSorted] = useState(false); //정렬 상태
   //배열 shuffle
   const handleShuffle = () => {
     setArr(shuffle(arr));
@@ -89,6 +90,17 @@ const BubbleSort = () => {
       };
     };
   };
+  //스트링과 파일 이름을 매개변수로 넣으면 txt파일 다운
+  const saveAsFile = (str, filename) => {
+    var hiddenElement = document.createElement("a");
+    hiddenElement.href = "data:attachment/text," + encodeURI(str);
+    hiddenElement.target = "_blank";
+    hiddenElement.download = filename;
+    hiddenElement.click();
+  };
+  useEffect(() => {
+    handleShuffle();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -111,9 +123,45 @@ const BubbleSort = () => {
             <option value={50}>속도 : 느리게</option>
           </select>
         )}
-        {!isRunning && <button onClick={() => fileInput(setArr)}>File</button>}
-        {!isRunning && <button onClick={handleShuffle}>Shuffle</button>}
-        {!isRunning && <button onClick={() => handdleSort(arr, speed)}>Sort</button>}
+        {!isRunning && (
+          <button
+            onClick={() => {
+              setIsSorted(false);
+              fileInput(setArr);
+            }}>
+            Input txt File
+          </button>
+        )}
+        {!isRunning && (
+          <button
+            onClick={() => {
+              if (isSorted) {
+                saveAsFile(arr, "정렬결과.txt");
+              } else {
+                alert("정렬이 되지 않은 상태입니다! Sort를 먼저 진행해주세요!");
+              }
+            }}>
+            Download Output txt File
+          </button>
+        )}
+        {!isRunning && (
+          <button
+            onClick={() => {
+              setIsSorted(false);
+              handleShuffle();
+            }}>
+            Shuffle
+          </button>
+        )}
+        {!isRunning && (
+          <button
+            onClick={() => {
+              setIsSorted(true), handdleSort(arr, speed);
+            }}
+            style={{ backgroundColor: "#7bf9ff" }}>
+            Sort
+          </button>
+        )}
         {isRunning && <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "20px", marginRight: "20px" }}>Running!</div>}
       </div>
 
