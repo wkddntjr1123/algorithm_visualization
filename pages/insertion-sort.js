@@ -18,7 +18,7 @@ const init_arr = Array(h * w)
   });
 
 //삽입정렬 함수 : async/await를 사용해서 setArr을 통한 state업데이트 렌더링
-const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
+const sort = async (arr, setArr, setIdxI, setIdxJ, speed, setCount) => {
   const beepA = BrowserBeep({ frequency: 700 }); //beep음 i
   const beepB = BrowserBeep({ frequency: 300 }); //beep음 j
 
@@ -26,6 +26,7 @@ const sort = async (arr, setArr, setIdxI, setIdxJ, speed) => {
   while (i < arr.length) {
     let j = i;
     while (j > 0 && arr[j - 1] > arr[j]) {
+      setCount((prev) => prev + 1);
       [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
       await await blinkColor(j, j - 1, speed);
       await new Promise((resolve, reject) => {
@@ -50,15 +51,17 @@ const InsertionSort = () => {
   const [isRunning, setIsRunning] = useState(false); //sorting중이면 버튼 숨기기 위함
   const [speed, setSpeed] = useState(5); //정렬 시각화 속도
   const [isSorted, setIsSorted] = useState(false); //정렬 상태
+  const [count, setCount] = useState(0); //비교횟수
   //배열 shuffle
   const handleShuffle = () => {
     setArr(shuffle(arr));
   };
 
   //시작시 isRunning을 true로 해서 running알림. sort끝나면 다시 isRunning false로 해서 버튼 표시
-  const handdleSort = async (arr, speed) => {
+  const handdleSort = async (arr, speed, setCount) => {
     setIsRunning(true);
-    await sort(arr, setArr, setIdxI, setIdxJ, speed);
+    setCount(0);
+    await sort(arr, setArr, setIdxI, setIdxJ, speed, setCount);
     setIsRunning(false);
     setIdxI(-1);
     setIdxJ(-1);
@@ -119,6 +122,11 @@ const InsertionSort = () => {
         j
       </div>
       <div className="buttonBox">
+        {isSorted && (
+          <span style={{ display: "inline-block", fontSize: "22px", fontWeight: "bold", float: "left", marginTop: "38px", marginLeft: "5px" }}>
+            비교 횟수 : {count}
+          </span>
+        )}
         {!isRunning && (
           <select className="speedBox" onChange={(e) => setSpeed(e.target.value)}>
             <option value={5}>속도 : 빠르게</option>
@@ -158,7 +166,7 @@ const InsertionSort = () => {
         {!isRunning && (
           <button
             onClick={() => {
-              setIsSorted(true), handdleSort(arr, speed);
+              setIsSorted(true), handdleSort(arr, speed, setCount);
             }}
             style={{ backgroundColor: "#7bf9ff" }}>
             Sort
